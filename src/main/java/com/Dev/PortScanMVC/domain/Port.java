@@ -21,6 +21,7 @@ public class Port {
 
     private int portNum;
     private boolean isOpen;
+    private String description;
 
     public Port() {
     }
@@ -34,5 +35,12 @@ public class Port {
     public Port(int portNum, boolean isOpen) {
         this.portNum = portNum;
         this.isOpen = isOpen;
+    }
+
+    public Port(Long id, int portNum, boolean isOpen, String description) {
+        this.id = id;
+        this.portNum = portNum;
+        this.isOpen = isOpen;
+        this.description = description;
     }
 }
