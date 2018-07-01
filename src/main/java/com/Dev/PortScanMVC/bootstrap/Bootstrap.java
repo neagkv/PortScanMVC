@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
@@ -20,7 +21,8 @@ import java.util.concurrent.*;
 @Component
 public class Bootstrap implements CommandLineRunner {
 
-    PortRepository portRepository;
+
+    private PortRepository portRepository;
 
     public Bootstrap(PortRepository portRepository) {
         this.portRepository = portRepository;
@@ -31,6 +33,7 @@ public class Bootstrap implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        log.debug("Start time: " + LocalDateTime.now().toString());
         //Executor service with 20 threads
         final ExecutorService es = Executors.newFixedThreadPool(20);
         //home ip
@@ -41,7 +44,7 @@ public class Bootstrap implements CommandLineRunner {
         final List<Future<Port>> futures = new ArrayList<>();
         //Arraylist of future open ports
         final List<Future<Port>> openFutures = new ArrayList<>();
-        log.info("Starting Scan");
+        log.debug("Starting Scan");
         //for each port
         for (int port = 1; port <=  65536; port++) {
             //futures add to see if port is open
@@ -58,15 +61,20 @@ public class Bootstrap implements CommandLineRunner {
                 portRepository.save(f.get());
 
                 //print out the value of port
-                log.info(String.valueOf(f.get().getPortNum()));
+                log.debug(String.valueOf(f.get().getPortNum()));
                 //
                 openPorts++;
 
             }
 
-        log.info("There are " + openPorts + " open ports on host " + ip + " (probed with a timeout of "
+        log.debug("There are " + openPorts + " open ports on host " + ip + " (probed with a timeout of "
                 + timeout + "ms)");
-    }
+        log.debug("End Time: " + LocalDateTime.now().toString());
+
+
+
+        }
+
 
     //check if port is open and return
     public static Future<Port> portIsOpen(final ExecutorService es, final String ip, final int port,
