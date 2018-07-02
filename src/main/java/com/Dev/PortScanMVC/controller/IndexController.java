@@ -23,15 +23,17 @@ public class IndexController {
 
     @RequestMapping({"","/","/index"})
     public String getIndex(Model model){
-        if(true){
-            log.debug("Still Scanning");
-            return "home";
-        }
-        else {
+//        if(true){
+//            log.debug("Still Scanning");
+//            return "home";
+//        }
+//        else {
             log.debug("Getting Index page");
             model.addAttribute("port", portService.getPorts());
             return "index";
-        }
+//        }
+
+        //return "redirect:/recipe/" + savedCommand.getId() + "/show";
     }
 
 }
